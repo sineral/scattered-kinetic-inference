@@ -1,0 +1,8 @@
+# Combined split
+
+`cat0` covers three bands: **0.1–1 mol%** (`[0.001, 0.01]`), **1–10 mol%** (`[0.01, 0.10]`), and **10–20 mol%** (`[0.10, 0.20]`).
+
+Files: `train.parquet`, `val.parquet`, `test.parquet`.
+Samples: 364,386 / 87,143 / 87,308 (train / val / test).
+
+Column definitions: `../README`.

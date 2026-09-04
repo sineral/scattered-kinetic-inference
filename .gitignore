@@ -1,0 +1,36 @@
+.DS_Store
+nohup.out
+.cursor/
+
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/.pytest_cache/
+**/.ipynb_checkpoints/
+
+# Local run artifacts
+**/logs/
+**/results/
+
+# Nature kinetic-profile pickles (download from the Nature dataset DOI)
+Nature_Kinetic_Benchmark/data/nature_data/*.pkl
+
+# Scattered parquet and the Zenodo zip (https://doi.org/10.5281/zenodo.21991341)
+Scattered_Set_Transformer/data/**/*.parquet
+Scattered_Set_Transformer/scattered-kinetic-data.zip
+
+# Weights: ignore all, then keep only the shipped checkpoints
+**/*.pth
+!Nature_Kinetic_Benchmark/checkpoints/set_transformer/best_model.pth
+!Nature_Kinetic_Benchmark/checkpoints/deepsets/best_model.pth
+!Nature_Kinetic_Benchmark/checkpoints/tst/best_model.pth
+!Scattered_Set_Transformer/checkpoints/default_member_0.pth
+!Scattered_Set_Transformer/checkpoints/default_member_1.pth
+!Scattered_Set_Transformer/checkpoints/default_member_2.pth
+!Scattered_Set_Transformer/checkpoints/default_member_3.pth
+!Scattered_Set_Transformer/checkpoints/default_member_4.pth
+!Scattered_Set_Transformer/checkpoints/combined_member_0.pth
+!Scattered_Set_Transformer/checkpoints/combined_member_1.pth
+!Scattered_Set_Transformer/checkpoints/combined_member_2.pth
+!Scattered_Set_Transformer/checkpoints/combined_member_3.pth
+!Scattered_Set_Transformer/checkpoints/combined_member_4.pth

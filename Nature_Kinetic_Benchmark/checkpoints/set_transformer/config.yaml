@@ -1,0 +1,103 @@
+# Set Transformer training config (Nature M1-M20).
+# Train noise is overridden in train_set_transformer.py to {0, 0.5, 1, 2}%.
+
+data_dir: "data/nature_data"
+is_nature_test: true
+nature_test_timepoints: 6
+nature_test_error: 0
+
+mechanisms:
+  - M1
+  - M2
+  - M3
+  - M4
+  - M5
+  - M6
+  - M7
+  - M8
+  - M9
+  - M10
+  - M11
+  - M12
+  - M13
+  - M14
+  - M15
+  - M16
+  - M17
+  - M18
+  - M19
+  - M20
+
+set_generation:
+  n_min: 6
+  n_max: 15
+  features:
+    basic:
+      - catalyst_loading
+      - initial_substrate
+      - initial_product
+      - reaction_time
+      - residual_substrate
+      - generated_product
+    optional_features:
+      enabled: true
+      features:
+        - substrate_rate
+        - product_rate
+        - substrate_fraction
+        - conversion
+        - total_material
+        - mass_deviation
+        - product_fraction
+        - substrate_ratio
+        - product_ratio
+        - specific_productivity
+        - substrate_catalyst
+        - product_catalyst
+        - substrate_product
+        - turnover_number
+  noise:
+    enabled: true
+    std_dev: 0.01
+
+training:
+  samples_per_epoch: 1000000
+  batch_size: 512
+  num_workers: 6
+  epochs: 500
+  learning_rate: 0.0001
+  pretrained:
+    load_trained_weights: false
+    weights_path: ""
+  gpu:
+    enabled: true
+    gpu_id: 0
+    no_cuda: false
+  output:
+    output_dir: "./checkpoints/set_transformer"
+    log_dir: "./logs/set_transformer"
+    log_file: "training.log"
+    verbose: true
+    save_best_only: true
+  memory:
+    clear_cache_each_epoch: true
+    progress_reporting: true
+
+model:
+  name: "settransformer"
+  settransformer:
+    dim_hidden: 256
+    num_heads: 8
+    num_layers: 8
+    dropout: 0.1
+    num_inducing: 64
+    num_pma_seeds: 4
+    use_feature_gating: true
+    num_classifier_heads: 1
+
+validation:
+  eval_frequency: 1
+  early_stopping:
+    enabled: false
+    patience: 10
+    min_delta: 0.001

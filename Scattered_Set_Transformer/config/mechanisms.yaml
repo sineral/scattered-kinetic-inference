@@ -1,0 +1,1094 @@
+# M1-M20 ODE definitions (species and mass-action reactions).
+# Used by the active-sampling oracle and by data_generation/.
+# Rate-constant priors and screening rules: config/k_generation.yaml.
+
+mechanisms:
+  M1:
+    description: Baseline monomeric cycle (S+cat <-> catS; cat+P <-> catS)
+    species:
+    - S
+    - cat
+    - catS
+    - P
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          cat: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          catS: 1
+        products:
+          S: 1
+          cat: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          catS: 1
+        products:
+          cat: 1
+          P: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          cat: 1
+          P: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k_-2: null
+  M2:
+    description: Monomeric cycle + reversible dimerization (2 cat <-> cat2)
+    species:
+    - S
+    - cat
+    - catS
+    - cat2
+    - P
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          cat: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          catS: 1
+        products:
+          S: 1
+          cat: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          catS: 1
+        products:
+          cat: 1
+          P: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          cat: 1
+          P: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k_-2: null
+      r5:
+        reactants:
+          cat: 2
+        products:
+          cat2: 1
+        kinetic_constant:
+          k3: null
+      r6:
+        reactants:
+          cat2: 1
+        products:
+          cat: 2
+        kinetic_constant:
+          k_-3: null
+  M3:
+    description: Dimeric resting/active cycle (cat <-> cat2; S + cat2 <-> cat2S; cat2S
+      <-> cat2 + P)
+    species:
+    - S
+    - cat
+    - cat2
+    - cat2S
+    - P
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          cat2: 1
+        products:
+          cat2S: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          cat2S: 1
+        products:
+          S: 1
+          cat2: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          cat2S: 1
+        products:
+          cat2: 1
+          P: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          cat2: 1
+          P: 1
+        products:
+          cat2S: 1
+        kinetic_constant:
+          k_-2: null
+      r5:
+        reactants:
+          cat: 2
+        products:
+          cat2: 1
+        kinetic_constant:
+          k3: null
+      r6:
+        reactants:
+          cat2: 1
+        products:
+          cat: 2
+        kinetic_constant:
+          k_-3: null
+  M4:
+    description: Monomeric catalyst cycle with auxiliary species X (S + cat <-> catS
+      + X; catS + X <-> P + cat)
+    species:
+    - S
+    - cat
+    - catS
+    - X
+    - P
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          cat: 1
+        products:
+          catS: 1
+          X: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          X: 1
+          catS: 1
+        products:
+          S: 1
+          cat: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          X: 1
+          catS: 1
+        products:
+          P: 1
+          cat: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          P: 1
+          cat: 1
+        products:
+          X: 1
+          catS: 1
+        kinetic_constant:
+          k_-2: null
+  M5:
+    description: Monomeric catalyst with two resting states (catS, catP) interconverted
+      via collision with free cat; S + cat <-> catS; P + cat <-> catP.
+    species:
+    - S
+    - cat
+    - catS
+    - catP
+    - P
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          cat: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          catS: 1
+        products:
+          S: 1
+          cat: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          catS: 1
+          cat: 1
+        products:
+          catP: 1
+          cat: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          catP: 1
+          cat: 1
+        products:
+          catS: 1
+          cat: 1
+        kinetic_constant:
+          k_-2: null
+      r5:
+        reactants:
+          catP: 1
+        products:
+          cat: 1
+          P: 1
+        kinetic_constant:
+          k3: null
+      r6:
+        reactants:
+          cat: 1
+          P: 1
+        products:
+          catP: 1
+        kinetic_constant:
+          k_-3: null
+  M6:
+    description: Activation of cat to cat*; substrate/product binding to active catalyst
+      (S + cat* <-> cat*S; P + cat* <-> cat*S).
+    species:
+    - S
+    - cat
+    - cat*
+    - cat*S
+    - P
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          cat*: 1
+        products:
+          cat*S: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          cat*S: 1
+        products:
+          S: 1
+          cat*: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          cat*S: 1
+        products:
+          cat*: 1
+          P: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          cat*: 1
+          P: 1
+        products:
+          cat*S: 1
+        kinetic_constant:
+          k_-2: null
+      r5:
+        reactants:
+          cat: 1
+        products:
+          cat*: 1
+        kinetic_constant:
+          k3: null
+  M7:
+    description: Sequential substrate binding to resting cat and catS; mono- and bis-bound
+      active states catS / catS2 (S + cat <-> catS; S + catS <-> catS2; catS2 <->
+      catS + P).
+    species:
+    - S
+    - cat
+    - catS
+    - catS2
+    - P
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          catS: 1
+        products:
+          catS2: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          catS2: 1
+        products:
+          S: 1
+          catS: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          catS2: 1
+        products:
+          catS: 1
+          P: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          catS: 1
+          P: 1
+        products:
+          catS2: 1
+        kinetic_constant:
+          k_-2: null
+      r5:
+        reactants:
+          S: 1
+          cat: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k3: null
+      r6:
+        reactants:
+          catS: 1
+        products:
+          S: 1
+          cat: 1
+        kinetic_constant:
+          k_-3: null
+  M8:
+    description: Ligand-assisted activation of cat to cat* (cat <-> cat* + L); substrate/product
+      binding to active catalyst (S + cat* <-> cat*S; P + cat* <-> cat*S).
+    species:
+    - S
+    - cat
+    - cat*
+    - cat*S
+    - P
+    - L
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          cat*: 1
+        products:
+          cat*S: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          cat*S: 1
+        products:
+          S: 1
+          cat*: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          cat*S: 1
+        products:
+          cat*: 1
+          P: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          cat*: 1
+          P: 1
+        products:
+          cat*S: 1
+        kinetic_constant:
+          k_-2: null
+      r5:
+        reactants:
+          cat: 1
+        products:
+          cat*: 1
+          L: 1
+        kinetic_constant:
+          k3: null
+      r6:
+        reactants:
+          L: 1
+          cat*: 1
+        products:
+          cat: 1
+        kinetic_constant:
+          k_-3: null
+  M9:
+    description: Catalyst deactivation to an inactive reservoir (S + cat <-> catS;
+      catS <-> cat + P; cat -> inactive_cat).
+    species:
+    - S
+    - cat
+    - catS
+    - P
+    - inactive_cat
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          cat: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          catS: 1
+        products:
+          S: 1
+          cat: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          catS: 1
+        products:
+          cat: 1
+          P: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          cat: 1
+          P: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k_-2: null
+      r5:
+        reactants:
+          cat: 1
+        products:
+          inactive_cat: 1
+        kinetic_constant:
+          k3: null
+  M10:
+    description: Inhibitor-driven deactivation of cat to inactive_catI; catalytic
+      cycle S + cat <-> catS <-> cat + P.
+    species:
+    - S
+    - cat
+    - catS
+    - P
+    - inhibitor
+    - inactive_catI
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          cat: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          catS: 1
+        products:
+          S: 1
+          cat: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          catS: 1
+        products:
+          cat: 1
+          P: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          cat: 1
+          P: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k_-2: null
+      r5:
+        reactants:
+          inhibitor: 1
+          cat: 1
+        products:
+          inactive_catI: 1
+        kinetic_constant:
+          k3: null
+  M11:
+    description: Substrate-assisted deactivation of cat + S to inactive_catS; catalytic
+      cycle S + cat <-> catS <-> cat + P.
+    species:
+    - S
+    - cat
+    - catS
+    - P
+    - inactive_catS
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          cat: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          catS: 1
+        products:
+          S: 1
+          cat: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          catS: 1
+        products:
+          cat: 1
+          P: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          cat: 1
+          P: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k_-2: null
+      r5:
+        reactants:
+          S: 1
+          cat: 1
+        products:
+          inactive_catS: 1
+        kinetic_constant:
+          k3: null
+  M12:
+    description: Product-assisted deactivation of cat + P to inactive_catP; catalytic
+      cycle S + cat <-> catS <-> cat + P.
+    species:
+    - S
+    - cat
+    - catS
+    - P
+    - inactive_catP
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          cat: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          catS: 1
+        products:
+          S: 1
+          cat: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          catS: 1
+        products:
+          cat: 1
+          P: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          cat: 1
+          P: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k_-2: null
+      r5:
+        reactants:
+          P: 1
+          cat: 1
+        products:
+          inactive_catP: 1
+        kinetic_constant:
+          k3: null
+  M13:
+    description: Bimolecular deactivation of cat to inactive_cat2; catalytic cycle
+      S + cat <-> catS <-> cat + P.
+    species:
+    - S
+    - cat
+    - catS
+    - P
+    - inactive_cat2
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          cat: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          catS: 1
+        products:
+          S: 1
+          cat: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          catS: 1
+        products:
+          cat: 1
+          P: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          cat: 1
+          P: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k_-2: null
+      r5:
+        reactants:
+          cat: 2
+        products:
+          inactive_cat2: 1
+        kinetic_constant:
+          k3: null
+  M14:
+    description: Deactivation of bound catalyst catS to inactive_catS; catalytic cycle
+      S + cat <-> catS <-> cat + P.
+    species:
+    - S
+    - cat
+    - catS
+    - P
+    - inactive_catS
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          cat: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          catS: 1
+        products:
+          S: 1
+          cat: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          catS: 1
+        products:
+          cat: 1
+          P: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          cat: 1
+          P: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k_-2: null
+      r5:
+        reactants:
+          catS: 1
+        products:
+          inactive_catS: 1
+        kinetic_constant:
+          k3: null
+  M15:
+    description: Inhibitor-driven deactivation of bound catalyst catS to inactive_catSI;
+      catalytic cycle S + cat <-> catS <-> cat + P.
+    species:
+    - S
+    - cat
+    - catS
+    - P
+    - inhibitor
+    - inactive_catSI
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          cat: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          catS: 1
+        products:
+          S: 1
+          cat: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          catS: 1
+        products:
+          cat: 1
+          P: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          cat: 1
+          P: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k_-2: null
+      r5:
+        reactants:
+          inhibitor: 1
+          catS: 1
+        products:
+          inactive_catSI: 1
+        kinetic_constant:
+          k3: null
+  M16:
+    description: Substrate-assisted deactivation of bound catalyst catS to inactive_catS2;
+      catalytic cycle S + cat <-> catS <-> cat + P.
+    species:
+    - S
+    - cat
+    - catS
+    - P
+    - inactive_catS2
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          cat: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          catS: 1
+        products:
+          S: 1
+          cat: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          catS: 1
+        products:
+          cat: 1
+          P: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          cat: 1
+          P: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k_-2: null
+      r5:
+        reactants:
+          S: 1
+          catS: 1
+        products:
+          inactive_catS2: 1
+        kinetic_constant:
+          k3: null
+  M17:
+    description: Product-assisted deactivation of bound catalyst catS to inactive_catSP;
+      catalytic cycle S + cat <-> catS <-> cat + P.
+    species:
+    - S
+    - cat
+    - catS
+    - P
+    - inactive_catSP
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          cat: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          catS: 1
+        products:
+          S: 1
+          cat: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          catS: 1
+        products:
+          cat: 1
+          P: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          cat: 1
+          P: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k_-2: null
+      r5:
+        reactants:
+          catS: 1
+          P: 1
+        products:
+          inactive_catSP: 1
+        kinetic_constant:
+          k3: null
+  M18:
+    description: Bimolecular deactivation of bound catalyst catS to inactive_cat2S2;
+      catalytic cycle S + cat <-> catS <-> cat + P.
+    species:
+    - S
+    - cat
+    - catS
+    - P
+    - inactive_cat2S2
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          cat: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          catS: 1
+        products:
+          S: 1
+          cat: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          catS: 1
+        products:
+          cat: 1
+          P: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          cat: 1
+          P: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k_-2: null
+      r5:
+        reactants:
+          catS: 2
+        products:
+          inactive_cat2S2: 1
+        kinetic_constant:
+          k3: null
+  M19:
+    description: Hetero-dimer deactivation of cat and catS to inactive_cat2S; catalytic
+      cycle S + cat <-> catS <-> cat + P.
+    species:
+    - S
+    - cat
+    - catS
+    - P
+    - inactive_cat2S
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          cat: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          catS: 1
+        products:
+          S: 1
+          cat: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          catS: 1
+        products:
+          cat: 1
+          P: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          cat: 1
+          P: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k_-2: null
+      r5:
+        reactants:
+          cat: 1
+          catS: 1
+        products:
+          inactive_cat2S: 1
+        kinetic_constant:
+          k3: null
+  M20:
+    description: Parallel deactivation of free and bound catalyst to inactive_cat
+      and inactive_catS; catalytic cycle S + cat <-> catS <-> cat + P.
+    species:
+    - S
+    - cat
+    - catS
+    - P
+    - inactive_cat
+    - inactive_catS
+    observed_species:
+    - S
+    - P
+    reactions:
+      r1:
+        reactants:
+          S: 1
+          cat: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k1: null
+      r2:
+        reactants:
+          catS: 1
+        products:
+          S: 1
+          cat: 1
+        kinetic_constant:
+          k_-1: null
+      r3:
+        reactants:
+          catS: 1
+        products:
+          cat: 1
+          P: 1
+        kinetic_constant:
+          k2: null
+      r4:
+        reactants:
+          cat: 1
+          P: 1
+        products:
+          catS: 1
+        kinetic_constant:
+          k_-2: null
+      r5:
+        reactants:
+          cat: 1
+        products:
+          inactive_cat: 1
+        kinetic_constant:
+          k3: null
+      r6:
+        reactants:
+          catS: 1
+        products:
+          inactive_catS: 1
+        kinetic_constant:
+          k4: null

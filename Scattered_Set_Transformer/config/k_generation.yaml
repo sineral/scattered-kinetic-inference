@@ -1,0 +1,738 @@
+# Rate-constant sampling and mechanism-specific screening rules.
+# ODE species/reactions live in mechanisms.yaml; this file is only used by
+# data_generation/screen_k.py and data_generation/generate_scattered_dataset.py.
+#
+# Screening expressions are evaluated on species concentrations at a given
+# conversion window. Names with '*' are mapped to '_star' before eval
+# (e.g. cat* -> cat_star).
+global_k_sampler:
+  distribution: loguniform
+  low: 1.0e-5
+  high: 1.0e5
+  round_sigfigs: 3
+mechanisms:
+  M1:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      cat:
+      - 0.01
+      - 0.1
+      catS:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+    constraints: {}
+  M2:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      cat:
+      - 0.01
+      - 0.1
+      catS:
+      - 0.0
+      - 0.0
+      cat2:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+    constraints:
+      screening:
+        description: Test at standard S/P with cat0=0.05; pass if in X∈[0.20,0.50] dimer share ≥10%.
+        initial_override:
+          S: 1.0
+          P: 0.0
+          catS: 0.0
+          cat2: 0.0
+        cat0_scan:
+          type: grid
+          low: 0.05
+          high: 0.05
+          n: 1
+          existential: true
+        at_conv:
+          X:
+          - 0.2
+          - 0.5
+          rules:
+          - expr: (2*cat2) / (cat + catS + 2*cat2) >= 0.10
+  M3:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      cat:
+      - 0.01
+      - 0.1
+      cat2:
+      - 0.0
+      - 0.0
+      cat2S:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+    constraints:
+      screening:
+        description: Standard S/P; test with cat0=0.05 at early conversion (X≤0.10). Pass if free-cat
+          fraction ≥5%.
+        initial_override:
+          S: 1.0
+          P: 0.0
+          cat2: 0.0
+          cat2S: 0.0
+        cat0_scan:
+          type: grid
+          low: 0.05
+          high: 0.05
+          n: 1
+          existential: true
+        at_conv:
+          X:
+          - 0.0
+          - 0.1
+          rules:
+          - expr: cat / (cat + 2*cat2 + 2*cat2S) >= 0.05
+  M4:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      X:
+      - 0.0
+      - 0.0
+      cat:
+      - 0.01
+      - 0.1
+      catS:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+    constraints: {}
+  M5:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      cat:
+      - 0.01
+      - 0.1
+      catS:
+      - 0.0
+      - 0.0
+      catP:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+    constraints: {}
+  M6:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      cat:
+      - 0.01
+      - 0.1
+      cat*:
+      - 0.0
+      - 0.0
+      cat*S:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+    constraints:
+      screening:
+        description: Standard S/P; test with cat0 in [0.03, 0.07] at X=0.20. Pass if active-cat fraction
+          (cat*+cat*S) is between 10% and 90%.
+        initial_override:
+          S: 1.0
+          P: 0.0
+          cat*: 0.0
+          cat*S: 0.0
+        cat0_scan:
+          type: grid
+          low: 0.03
+          high: 0.07
+          n: 5
+          existential: true
+        at_conv:
+          X:
+          - 0.2
+          - 0.2
+          rules:
+          - expr: (cat* + cat*S) / (cat + cat* + cat*S) >= 0.10
+          - expr: (cat* + cat*S) / (cat + cat* + cat*S) <= 0.90
+  M7:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      cat:
+      - 0.01
+      - 0.1
+      catS:
+      - 0.0
+      - 0.0
+      catS2:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+    constraints:
+      screening:
+        description: Standard S/P; test with cat0 in [0.03, 0.07] at X=0.20. Pass if active-cat fraction
+          (catS+catS2) is between 10% and 80%.
+        initial_override:
+          S: 1.0
+          P: 0.0
+          catS: 0.0
+          catS2: 0.0
+        cat0_scan:
+          type: grid
+          low: 0.03
+          high: 0.07
+          n: 5
+          existential: true
+        at_conv:
+          X:
+          - 0.2
+          - 0.2
+          rules:
+          - expr: (catS + catS2) / (cat + catS + catS2) >= 0.10
+          - expr: (catS + catS2) / (cat + catS + catS2) <= 0.80
+  M8:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      cat:
+      - 0.01
+      - 0.1
+      cat*:
+      - 0.0
+      - 0.0
+      cat*S:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+      L:
+      - 0.0
+      - 0.0
+    constraints:
+      screening:
+        description: Standard S/P; test with cat0 in [0.03,0.07]. Pass if active-cat fraction (cat*+cat*S)
+          is between 10% and 90% at X=0.50.
+        initial_override:
+          S: 1.0
+          P: 0.0
+          cat*: 0.0
+          cat*S: 0.0
+          L: 0.0
+        cat0_scan:
+          type: grid
+          low: 0.03
+          high: 0.07
+          n: 5
+          existential: true
+        at_conv:
+          X:
+          - 0.5
+          - 0.5
+          rules:
+          - expr: (cat* + cat*S) / (cat + cat* + cat*S) >= 0.10
+          - expr: (cat* + cat*S) / (cat + cat* + cat*S) <= 0.90
+  M9:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      cat:
+      - 0.01
+      - 0.1
+      catS:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+      inactive_cat:
+      - 0.0
+      - 0.0
+    constraints:
+      screening:
+        description: Standard S/P; test with cat0 in [0.03,0.07]. Pass if active-cat fraction (cat+catS)
+          is between 50% and 90% at X=0.50.
+        initial_override:
+          S: 1.0
+          P: 0.0
+          catS: 0.0
+          inactive_cat: 0.0
+        cat0_scan:
+          type: grid
+          low: 0.03
+          high: 0.07
+          n: 5
+          existential: true
+        at_conv:
+          X:
+          - 0.5
+          - 0.5
+          rules:
+          - expr: (cat + catS) / (cat + catS + inactive_cat) >= 0.50
+          - expr: (cat + catS) / (cat + catS + inactive_cat) <= 0.90
+  M10:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      cat:
+      - 0.01
+      - 0.1
+      catS:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+      inhibitor:
+      - 0.1
+      - 1.0
+      inactive_catI:
+      - 0.0
+      - 0.0
+    constraints:
+      screening:
+        description: Standard S/P; test with cat0 in [0.03,0.07]. Pass if inactive catalyst (inactive_catI)
+          >10% at X=0.50.
+        initial_override:
+          S: 1.0
+          P: 0.0
+          catS: 0.0
+          inactive_catI: 0.0
+        cat0_scan:
+          type: grid
+          low: 0.03
+          high: 0.07
+          n: 5
+          existential: true
+        at_conv:
+          X:
+          - 0.5
+          - 0.5
+          rules:
+          - expr: inactive_catI / (cat + catS + inactive_catI) >= 0.10
+  M11:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      cat:
+      - 0.01
+      - 0.1
+      catS:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+      inactive_catS:
+      - 0.0
+      - 0.0
+    constraints:
+      screening:
+        description: Standard S/P; test with cat0 in [0.03,0.07]. Pass if active-cat fraction (cat+catS)
+          is between 50% and 90% at X=0.50.
+        initial_override:
+          S: 1.0
+          P: 0.0
+          catS: 0.0
+          inactive_catS: 0.0
+        cat0_scan:
+          type: grid
+          low: 0.03
+          high: 0.07
+          n: 5
+          existential: true
+        at_conv:
+          X:
+          - 0.5
+          - 0.5
+          rules:
+          - expr: (cat + catS) / (cat + catS + inactive_catS) >= 0.50
+          - expr: (cat + catS) / (cat + catS + inactive_catS) <= 0.90
+  M12:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      cat:
+      - 0.01
+      - 0.1
+      catS:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+      inactive_catP:
+      - 0.0
+      - 0.0
+    constraints:
+      screening:
+        description: Standard S/P; test with cat0 in [0.03,0.07]. Pass if active-cat fraction (cat+catS)
+          is between 50% and 90% at X=0.50.
+        initial_override:
+          S: 1.0
+          P: 0.0
+          catS: 0.0
+          inactive_catP: 0.0
+        cat0_scan:
+          type: grid
+          low: 0.03
+          high: 0.07
+          n: 5
+          existential: true
+        at_conv:
+          X:
+          - 0.5
+          - 0.5
+          rules:
+          - expr: (cat + catS) / (cat + catS + inactive_catP) >= 0.50
+          - expr: (cat + catS) / (cat + catS + inactive_catP) <= 0.90
+  M13:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      cat:
+      - 0.01
+      - 0.1
+      catS:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+      inactive_cat2:
+      - 0.0
+      - 0.0
+    constraints:
+      screening:
+        description: Standard S/P; test with cat0 in [0.03,0.07]. Pass if active-cat fraction (cat+catS)
+          is between 50% and 80% at X=0.50.
+        initial_override:
+          S: 1.0
+          P: 0.0
+          catS: 0.0
+          inactive_cat2: 0.0
+        cat0_scan:
+          type: grid
+          low: 0.03
+          high: 0.07
+          n: 5
+          existential: true
+        at_conv:
+          X:
+          - 0.5
+          - 0.5
+          rules:
+          - expr: (cat + catS) / (cat + catS + 2*inactive_cat2) >= 0.50
+          - expr: (cat + catS) / (cat + catS + 2*inactive_cat2) <= 0.80
+  M14:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      cat:
+      - 0.01
+      - 0.1
+      catS:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+      inactive_catS:
+      - 0.0
+      - 0.0
+    constraints:
+      screening:
+        description: Standard S/P; test with cat0 in [0.03,0.07]. Pass if active-cat fraction (cat+catS)
+          is between 50% and 90% at X=0.50.
+        initial_override:
+          S: 1.0
+          P: 0.0
+          catS: 0.0
+          inactive_catS: 0.0
+        cat0_scan:
+          type: grid
+          low: 0.03
+          high: 0.07
+          n: 5
+          existential: true
+        at_conv:
+          X:
+          - 0.5
+          - 0.5
+          rules:
+          - expr: (cat + catS) / (cat + catS + inactive_catS) >= 0.50
+          - expr: (cat + catS) / (cat + catS + inactive_catS) <= 0.90
+  M15:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      cat:
+      - 0.01
+      - 0.1
+      catS:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+      inhibitor:
+      - 0.1
+      - 1.0
+      inactive_catSI:
+      - 0.0
+      - 0.0
+    constraints:
+      screening:
+        description: Standard S/P; test with cat0 in [0.03,0.07]. Pass if inactive catalyst (inactive_catSI)
+          exceeds 10% at X=0.50.
+        initial_override:
+          S: 1.0
+          P: 0.0
+          catS: 0.0
+          inactive_catSI: 0.0
+        cat0_scan:
+          type: grid
+          low: 0.03
+          high: 0.07
+          n: 5
+          existential: true
+        at_conv:
+          X:
+          - 0.5
+          - 0.5
+          rules:
+          - expr: inactive_catSI / (cat + catS + inactive_catSI) >= 0.10
+  M16:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      cat:
+      - 0.01
+      - 0.1
+      catS:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+      inactive_catS2:
+      - 0.0
+      - 0.0
+    constraints:
+      screening:
+        description: Standard S/P; test with cat0 in [0.03,0.07]. Pass if active-cat fraction (cat+catS)
+          is between 50% and 90% at X=0.50.
+        initial_override:
+          S: 1.0
+          P: 0.0
+          catS: 0.0
+          inactive_catS2: 0.0
+        cat0_scan:
+          type: grid
+          low: 0.03
+          high: 0.07
+          n: 5
+          existential: true
+        at_conv:
+          X:
+          - 0.5
+          - 0.5
+          rules:
+          - expr: (cat + catS) / (cat + catS + inactive_catS2) >= 0.50
+          - expr: (cat + catS) / (cat + catS + inactive_catS2) <= 0.90
+  M17:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      cat:
+      - 0.01
+      - 0.1
+      catS:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+      inactive_catSP:
+      - 0.0
+      - 0.0
+    constraints:
+      screening:
+        description: Standard S/P; test with cat0 in [0.03,0.07]. Pass if active-cat fraction (cat+catS)
+          is between 50% and 90% at X=0.50.
+        initial_override:
+          S: 1.0
+          P: 0.0
+          catS: 0.0
+          inactive_catSP: 0.0
+        cat0_scan:
+          type: grid
+          low: 0.03
+          high: 0.07
+          n: 5
+          existential: true
+        at_conv:
+          X:
+          - 0.5
+          - 0.5
+          rules:
+          - expr: (cat + catS) / (cat + catS + inactive_catSP) >= 0.50
+          - expr: (cat + catS) / (cat + catS + inactive_catSP) <= 0.90
+  M18:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      cat:
+      - 0.01
+      - 0.1
+      catS:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+      inactive_cat2S2:
+      - 0.0
+      - 0.0
+    constraints:
+      screening:
+        description: Standard S/P; test with cat0 in [0.03,0.07]. Pass if active-cat fraction (cat+catS)
+          is between 50% and 80% at X=0.50.
+        initial_override:
+          S: 1.0
+          P: 0.0
+          catS: 0.0
+          inactive_cat2S2: 0.0
+        cat0_scan:
+          type: grid
+          low: 0.03
+          high: 0.07
+          n: 5
+          existential: true
+        at_conv:
+          X:
+          - 0.5
+          - 0.5
+          rules:
+          - expr: (cat + catS) / (cat + catS + 2*inactive_cat2S2) >= 0.50
+          - expr: (cat + catS) / (cat + catS + 2*inactive_cat2S2) <= 0.80
+  M19:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      cat:
+      - 0.01
+      - 0.1
+      catS:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+      inactive_cat2S:
+      - 0.0
+      - 0.0
+    constraints:
+      screening:
+        description: Standard S/P; test with cat0 in [0.03,0.07]. Pass if active-cat fraction (cat+catS)
+          is between 50% and 80% at X=0.50.
+        initial_override:
+          S: 1.0
+          P: 0.0
+          catS: 0.0
+          inactive_cat2S: 0.0
+        cat0_scan:
+          type: grid
+          low: 0.03
+          high: 0.07
+          n: 5
+          existential: true
+        at_conv:
+          X:
+          - 0.5
+          - 0.5
+          rules:
+          - expr: (cat + catS) / (cat + catS + 2*inactive_cat2S) >= 0.50
+          - expr: (cat + catS) / (cat + catS + 2*inactive_cat2S) <= 0.80
+  M20:
+    initial_ranges:
+      S:
+      - 0.4
+      - 1.2
+      cat:
+      - 0.01
+      - 0.1
+      catS:
+      - 0.0
+      - 0.0
+      P:
+      - 0.0
+      - 1.0
+      inactive_cat:
+      - 0.0
+      - 0.0
+      inactive_catS:
+      - 0.0
+      - 0.0
+    constraints:
+      screening:
+        description: Standard S/P; test with cat0 in [0.03,0.07]. Pass if (cat+catS) is 50–90% of total
+          catalyst and both inactive pools exceed 5% at X=0.50.
+        initial_override:
+          S: 1.0
+          P: 0.0
+          catS: 0.0
+          inactive_cat: 0.0
+          inactive_catS: 0.0
+        cat0_scan:
+          type: grid
+          low: 0.03
+          high: 0.07
+          n: 5
+          existential: true
+        at_conv:
+          X:
+          - 0.5
+          - 0.5
+          rules:
+          - expr: (cat + catS) / (cat + catS + inactive_cat + inactive_catS) >= 0.50
+          - expr: (cat + catS) / (cat + catS + inactive_cat + inactive_catS) <= 0.90
+          - expr: inactive_cat  / (cat + catS + inactive_cat + inactive_catS) >= 0.05
+          - expr: inactive_catS / (cat + catS + inactive_cat + inactive_catS) >= 0.05

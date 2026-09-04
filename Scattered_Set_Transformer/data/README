@@ -1,0 +1,44 @@
+# Data
+
+Two parquet datasets live here. They share the same table schema and 20 mechanism labels (M1–M20). A model sample is one **group** `(mech_id, k_hash)`: a variable-length set of kinetic points.
+
+| Folder | `cat0` | Samples (train / val / test) |
+| --- | --- | --- |
+| `default/` | 1–10 mol% (`[0.01, 0.10]`) | 140,000 / 29,999 / 30,000 |
+| `combined/` | 0.1–20 mol% (`[0.001, 0.20]`) | 364,386 / 87,143 / 87,308 |
+
+Each folder contains `train.parquet`, `val.parquet`, `test.parquet`.
+
+Parquet files are not in git. Download from Zenodo (**https://doi.org/10.5281/zenodo.21991341**) and unpack `scattered-kinetic-data.zip` at the repository root. Maintainers: `bash data/pack_zenodo.sh`.
+
+To regenerate the **default** (1–10 mol% `cat0`) tables from ODEs instead of downloading them, see `data_generation/README.md`. The **combined** split (0.1–20 mol%) is not produced by those scripts.
+
+`active_sampling/samples.yaml` is a 20-instance list used by the ODE oracle.
+
+## Schema
+
+Apache Parquet. One **row** is one observation at a single time.
+
+| Column | Type | Description |
+| --- | --- | --- |
+| `mech_id` | string | Mechanism label, `M1` … `M20` |
+| `k_hash` | string | Kinetic-instance id (unique together with `mech_id`) |
+| `t` | float64 | Time |
+| `tau` | float64 | Normalized time `t / t_ss`, in `[0, 1]` |
+| `X` | float64 | Conversion |
+| `RP` | float64 | Reaction progress |
+| `cat0` | float64 | Initial catalyst loading (mole fraction) |
+| `S0` | float64 | Initial substrate (unitless; typically 1) |
+| `P0` | float64 | Initial product (unitless; typically 0) |
+| `St` | float64 | Substrate at time `t` (same scale as `S0`) |
+| `Pt` | float64 | Product at time `t` (same scale as `S0`) |
+| `t_ss` | float64 | Reference time used to form `tau` |
+
+The training/eval loader (`src/utils/scattered_dataset.py`) uses `t` (or `tau`), `cat0`, `S0`, `P0`, `St`, `Pt`, and the group keys. It builds a 20-D feature vector per row.
+
+## Read
+
+```python
+import pandas as pd
+df = pd.read_parquet("data/default/test.parquet")
+```

@@ -1,0 +1,8 @@
+# Default split
+
+`cat0` is in-distribution only: **1–10 mol%** (`[0.01, 0.10]`).
+
+Files: `train.parquet`, `val.parquet`, `test.parquet`.
+Samples: 140,000 / 29,999 / 30,000 (train / val / test).
+
+Column definitions: `../README`.

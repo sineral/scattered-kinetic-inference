@@ -1,0 +1,13 @@
+# Active-sampling instances
+
+`samples.yaml` lists **20** kinetic instances, one per mechanism M1–M20.
+
+Each entry:
+
+| Field | Description |
+| --- | --- |
+| `mech_id` | `M1` … `M20` |
+| `instance_id` | Label used in output folders |
+| `k` | Rate constants for that mechanism (keys such as `k1`, `k2`, `k_-1`, …; `inhibitor` when the ODE has that species) |
+
+The oracle integrates the matching entry in `config/mechanisms.yaml` with these `k` values. `[S]` / `[P]` are unitless (`S0 = 1`).

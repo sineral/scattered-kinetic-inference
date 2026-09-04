@@ -1,0 +1,21 @@
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Local runs (may contain machine paths)
+logs/
+results/
+
+# Dataset is downloaded separately; do not ship pickle files or local links
+data/nature_data/*.pkl
+
+# Keep only the three shipped best models
+*.pth
+!checkpoints/set_transformer/best_model.pth
+!checkpoints/deepsets/best_model.pth
+!checkpoints/tst/best_model.pth
+
+.DS_Store
+nohup.out

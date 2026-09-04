@@ -1,0 +1,170 @@
+# 20 ground-truth kinetic instances (one per mechanism M1-M20).
+# instance_id is a folder/label tag.
+
+samples:
+- mech_id: M1
+  instance_id: 001a73a9
+  k:
+    k1: 0.923
+    k2: 9.02
+    k_-1: 9.65e-05
+    k_-2: 0.00648
+- mech_id: M2
+  instance_id: 37e321c7
+  k:
+    k1: 0.863
+    k2: 6500.0
+    k3: 4180.0
+    k_-1: 304.0
+    k_-2: 3.77e-05
+    k_-3: 20.7
+- mech_id: M3
+  instance_id: 20f9aacc
+  k:
+    k1: 23.6
+    k2: 6.69
+    k3: 4980.0
+    k_-1: 0.122
+    k_-2: 3.47e-05
+    k_-3: 7360.0
+- mech_id: M4
+  instance_id: 3744cc43
+  k:
+    k1: 0.307
+    k2: 79.6
+    k_-1: 4.06
+    k_-2: 0.00571
+- mech_id: M5
+  instance_id: def8f7dc
+  k:
+    k1: 0.598
+    k2: 242.0
+    k3: 0.17
+    k_-1: 8.99e-05
+    k_-2: 0.00232
+    k_-3: 0.0414
+- mech_id: M6
+  instance_id: dcca30ad
+  k:
+    k1: 0.541
+    k2: 1260.0
+    k3: 0.00108
+    k_-1: 594.0
+    k_-2: 0.000143
+- mech_id: M7
+  instance_id: 912a8031
+  k:
+    k1: 2.29
+    k2: 655.0
+    k3: 3.59
+    k_-1: 0.0568
+    k_-2: 9.62
+    k_-3: 23.5
+- mech_id: M8
+  instance_id: a0f1da30
+  k:
+    k1: 44600.0
+    k2: 0.669
+    k3: 0.00368
+    k_-1: 0.000861
+    k_-2: 5.06
+    k_-3: 51800.0
+- mech_id: M9
+  instance_id: eb18a923
+  k:
+    k1: 44100.0
+    k2: 0.0548
+    k3: 256.0
+    k_-1: 0.0178
+    k_-2: 0.644
+- mech_id: M10
+  instance_id: 7ca06ca6
+  k:
+    k1: 633.0
+    k2: 2080.0
+    k3: 4.02
+    k_-1: 0.196
+    k_-2: 283.0
+    inhibitor: 0.367839678607623
+- mech_id: M11
+  instance_id: df105c60
+  k:
+    k1: 1650.0
+    k2: 6.84
+    k3: 10.5
+    k_-1: 4.31e-05
+    k_-2: 26700.0
+- mech_id: M12
+  instance_id: 739b370d
+  k:
+    k1: 0.065
+    k2: 1360.0
+    k3: 0.00166
+    k_-1: 0.000119
+    k_-2: 0.00154
+- mech_id: M13
+  instance_id: 59699bf7
+  k:
+    k1: 569.0
+    k2: 0.0871
+    k3: 4.27
+    k_-1: 35.9
+    k_-2: 1.32e-05
+- mech_id: M14
+  instance_id: bf35b481
+  k:
+    k1: 0.381
+    k2: 0.252
+    k3: 0.00193
+    k_-1: 1.37e-05
+    k_-2: 0.00532
+- mech_id: M15
+  instance_id: b6a14569
+  k:
+    k1: 7.03
+    k2: 33400.0
+    k3: 284.0
+    k_-1: 0.357
+    k_-2: 0.000803
+    inhibitor: 0.2863491662122356
+- mech_id: M16
+  instance_id: 44e199bc
+  k:
+    k1: 2120.0
+    k2: 1.66
+    k3: 0.0209
+    k_-1: 0.213
+    k_-2: 323.0
+- mech_id: M17
+  instance_id: 51fed5b3
+  k:
+    k1: 4.55
+    k2: 2390.0
+    k3: 199.0
+    k_-1: 4330.0
+    k_-2: 0.00652
+- mech_id: M18
+  instance_id: 862fdbf8
+  k:
+    k1: 157.0
+    k2: 73.1
+    k3: 1.35
+    k_-1: 2.23e-05
+    k_-2: 8560.0
+- mech_id: M19
+  instance_id: c7bfb933
+  k:
+    k1: 47.2
+    k2: 0.29
+    k3: 14.9
+    k_-1: 5.19e-05
+    k_-2: 2.05
+- mech_id: M20
+  instance_id: f9923c24
+  k:
+    k1: 0.125
+    k2: 37100.0
+    k3: 0.000973
+    k4: 267.0
+    k_-1: 25.0
+    k_-2: 4.03e-05
